@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Countdowner</title>
+	<link href="http://fonts.googleapis.com/css?family=Slabo+27px|Roboto:400" rel="stylesheet">
+	<style>
+		.ctd-table {
+			margin-top: 10px;
+			width: 300px;
+		}
+
+		.ctd-table td {
+			text-align: center;
+			vertical-align: middle;
+		}
+
+		.ctd-hdr {
+			font-size: 26px;
+			font-family: 'Slabo 27px', serif;
+			font-weight: 300;
+			text-align: center;
+			border-bottom: 1px solid #dcdcdc;
+			padding-bottom: 5px;
+			color: #777;
+		}
+
+		.ctd-hdr span {
+			color: #596A41;
+		}
+
+		.ctd-td {
+			width: 33%;
+			font-family: 'Roboto', sans-serif;
+			font-weight: 400;
+			font-size: 14px;
+			line-height: 1;
+			padding-top: 10px;
+			padding-bottom: 14px;
+			border-top: 1px solid #dcdcdc;
+		}
+
+		.ctd-td-full {
+			width: 100%;
+			border: none;
+			padding-top: 0;
+			padding-bottom: 12px;
+		}
+
+		.ctd-d span,
+		.ctd-h span,
+		.ctd-m span,
+		.ctd-s span {
+			display: block;
+			font-family: 'Slabo 27px', serif;
+			font-size: 30px;
+		}
+
+		.ctd-d {
+			padding-top: 5px;
+		}
+
+		.ctd-d span {
+			font-size: 60px;
+		}
+
+		.ctd-m {
+			border-right: 1px solid #dcdcdc;
+			border-left: 1px solid #dcdcdc;
+		}
+
+		td.ctd-notes {
+			width: 100%;
+			padding: 8px 6px;
+			text-align: left;
+			line-height: 1.25;
+		}
+
+		.ctd-notes p {
+			font-size: 12px;
+			margin: 10px 0;
+		}
+	</style>
+</head>
+<body>
+
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" class="ctd-table js-clock">
+		<tr>
+			<th colspan="3" class="ctd-hdr">Countdowner</th>
+		</tr>
+		<tr>
+			<td colspan="3" class="ctd-td ctd-td-full ctd-d">
+				<span class="js-days"></span> days
+			</td>
+		</tr>
+		<tr>
+			<td class="ctd-td ctd-h">
+				<span class="js-hours"></span> hours
+			</td>
+			<td class="ctd-td ctd-m">
+				<span class="js-minutes"></span> minutes
+			</td>
+			<td class="ctd-td ctd-s">
+				<span class="js-seconds"></span> seconds
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" class="ctd-td ctd-notes">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum repudiandae distinctio neque officia nobis laboriosam repellendus perspiciatis, labore nulla sunt odio sed aliquid non similique libero consequatur, quos est nostrum.</p>
+
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum repudiandae distinctio neque officia nobis laboriosam repellendus perspiciatis, labore nulla sunt odio sed aliquid non similique libero consequatur, quos est nostrum.</p>
+			</td>
+		</tr>
+	</table>
+
+	<script src="http://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7"
+            crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(function() {
+
+			var deadline = 'January 1 2018 00:00:00 GMT-0500';
+
+			function getTimeRemaining(endtime){
+				var t = Date.parse(endtime) - Date.now(),
+					seconds = Math.floor( (t/1000) % 60 ),
+					minutes = Math.floor( (t/1000/60) % 60 ),
+					hours   = Math.floor( (t/(1000*60*60)) % 24 ),
+					days    = Math.floor( t/(1000*60*60*24) );
+				
+				return {
+					'total': t,
+					'days': days,
+					'hours': hours,
+					'minutes': minutes,
+					'seconds': seconds
+				};
+			};
+
+			function initClock(el, endTime) {
+				var $el = $(el),
+					timeInterval = setInterval(updateClock, 1000);
+
+				function updateClock() {
+					var t = getTimeRemaining(endTime);
+
+					$el.fadeIn(300);
+					$el.find('.js-days').text(t.days);
+					$el.find('.js-hours').text(t.hours);
+					$el.find('.js-minutes').text(t.minutes);
+					$el.find('.js-seconds').text(t.seconds);
+
+					if (t.total <= 0) {
+						$el.find('.js-days').text(0);
+						$el.find('.js-hours').text(0);
+						$el.find('.js-minutes').text(0);
+						$el.find('.js-seconds').text(0);
+						clearInterval(timeInterval);
+					}
+				};
+
+				updateClock();
+			};
+				
+			initClock('.js-clock', deadline);
+		});
+	</script>
+
+</body>
+</html>
